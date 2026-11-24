@@ -22,13 +22,14 @@ function yesNo(id) {
 function input() {
   const female = $('#sex').value === 'female';
   return {
+    form: $('#form').value,
     part1: LINES.map(([line]) => ({ cause: $(`#cause-${line}`).value, interval: $(`#interval-${line}`).value })),
     part2: $('#part2').value,
     sex: $('#sex').value || null,
     age: num($('#age').value),
     age_unit: $('#age_unit').value,
-    manner: $('#manner').value || null,
-    injury_how: $('#injury_how').value,
+    manner: $('#form').value === '4' ? $('#manner').value || null : null,
+    injury_how: $('#form').value === '4' ? $('#injury_how').value : '',
     pregnancy: female ? yesNo('pregnancy') : null,
     delivery: female && yesNo('pregnancy') ? yesNo('delivery') : null,
   };
@@ -36,6 +37,9 @@ function input() {
 
 function update() {
   $('#pregnancy-fields').hidden = $('#sex').value !== 'female';
+  const hospital = $('#form').value === '4';
+  $('#manner-field').hidden = !hospital;
+  $('#injury-field').hidden = !hospital;
   $('#delivery-field').hidden = $('#pregnancy').value !== 'yes';
   result = engine('mccd', input());
   if (result.error) {
@@ -52,6 +56,8 @@ function update() {
 
   $('#start-panel').hidden = empty;
   $('#starting').textContent = result.starting_cause ?? '';
+  const sc = result.score;
+  $('#score').textContent = `Audit framework score, sections II and III: ${sc.total} of ${sc.max} (${sc.major} major, ${sc.minor} minor). Sections I and IV need the case sheet and a coder.`;
 
   const bad = new Set(result.issues.filter(i => i.level !== 'info' && i.field).map(i => i.field));
   for (const [line] of LINES) $(`#cause-${line}`).setAttribute('aria-invalid', String(bad.has(line) && $(`#cause-${line}`).value !== ''));
@@ -91,6 +97,7 @@ function runAudit() {
     row('With at least one error', `${s.with_errors} (${pct(s.with_errors, s.certificates)})`),
     row('Warnings only', `${s.warnings_only} (${pct(s.warnings_only, s.certificates)})`),
     row('No errors or warnings', `${s.clean} (${pct(s.clean, s.certificates)})`),
+    row('Mean framework score, sections II and III', `${s.mean_score} of ${s.max_score}`),
   );
   const labels = Object.fromEntries(s.checks.map(c => [c.check, c.label]));
   $('#audit-checks').replaceChildren(...s.checks.map(c => el('tr', {},
@@ -104,6 +111,7 @@ function runAudit() {
     el('td', {}, r.underlying || '–'),
     el('td', {}, String(r.errors)),
     el('td', {}, String(r.warnings)),
+    el('td', {}, String(r.score)),
     el('td', {}, [...r.checks.map(c => labels[c] ?? c), ...r.problems].join('; ')))));
 }
 
