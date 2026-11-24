@@ -113,5 +113,6 @@ export function signer({ note, complete }) {
   return {
     refresh: paint,
     text: value => (signed && signed.text === value ? value + signed.block : value),
+    current: () => (signed && signed.text === note() ? { ...signed.who, when: signed.when } : null),
   };
 }

@@ -37,7 +37,8 @@
         </div>
         <div class="timer-actions">
           <button class="btn primary big" type="button" id="born">Baby born</button>
-          <button class="btn ghost" type="button" id="reset" hidden>Reset</button>
+          <button class="btn big" type="button" id="report-btn">Final report</button>
+          <button class="btn ghost" type="button" id="reset">New baby</button>
         </div>
       </div>
       <div class="alert" id="alert" role="alert" hidden></div>
@@ -53,6 +54,7 @@
           <button class="btn" type="button" id="same">Same as last time</button>
         </div>
       </div>
+      <div class="saved" id="saved" hidden><span id="saved-text"></span><button class="btn small" type="button" id="edit">Edit</button></div>
       <div id="signs" class="signs"></div>
       <span class="label spaced">Support given at this time</span>
       <div class="toggles" id="support"></div>
@@ -91,6 +93,19 @@
     </section>
 
     <section class="panel">
+      <h2>Report details</h2>
+      <p class="hint">Printed on the final report only. These are not saved on this device.</p>
+      <div class="form spaced">
+        <div class="field"><label class="label" for="r-unit">Hospital or unit</label><input class="input" id="r-unit" autocomplete="off"></div>
+        <div class="field"><label class="label" for="r-mother">Mother's name</label><input class="input" id="r-mother" autocomplete="off"></div>
+        <div class="field"><label class="label" for="r-reg">Registration number</label><input class="input" id="r-reg" autocomplete="off"></div>
+        <div class="field"><label class="label" for="r-sex">Baby's sex</label><select class="input" id="r-sex"><option value="">Not stated</option><option>Female</option><option>Male</option><option>Ambiguous</option></select></div>
+        <div class="field"><label class="label" for="r-weight">Birth weight (g)</label><input class="input short" id="r-weight" type="number" inputmode="numeric" min="300" max="6000"></div>
+        <div class="field"><label class="label" for="r-mode">Mode of delivery</label><select class="input" id="r-mode"><option value="">Not stated</option><option>Normal vaginal</option><option>Assisted vaginal</option><option>Caesarean</option></select></div>
+      </div>
+    </section>
+
+    <section class="panel">
       <h2>Comments</h2>
       <textarea class="input" id="comments" rows="2" placeholder="Maternal medicines, response to resuscitation between scores"></textarea>
     </section>
@@ -107,6 +122,7 @@
     <p>Rules: ACOG Committee Opinion 644 with the American Academy of Pediatrics, The Apgar Score (2015, reaffirmed 2025); Rüdiger and others, TEST-Apgar, BMC Pediatrics 2015. A recording aid, not a decision tool.</p>
   </footer>
 
+  <section class="report" id="report" hidden></section>
   <div class="toast" id="toast" role="status"></div>
 </body>
 </html>

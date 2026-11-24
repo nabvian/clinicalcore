@@ -28,3 +28,31 @@
   .quick { grid-template-columns: 1fr; }
 }
 #minutes .chip:disabled { opacity: 0.5; cursor: default; }
+
+.saved { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 12px; padding: 10px 12px; border-radius: 10px; background: var(--good); color: var(--good-ink); font-size: 15px; font-weight: 700; }
+.levels.locked .level, .toggles.locked .toggle { opacity: 0.6; }
+
+.report { display: none; }
+@media print {
+  @page { size: A4; margin: 14mm; }
+  body { background: #FFFFFF; }
+  body > *:not(.report) { display: none !important; }
+  .report { display: block !important; color: #000; font-size: 11pt; }
+}
+.report h1 { margin: 0; font-size: 18pt; }
+.report .sub { margin: 2px 0 10px; font-size: 9pt; color: #444; }
+.report .stamp { display: inline-block; margin: 0 0 8px; padding: 3px 10px; border: 2px solid #B91C1C; color: #B91C1C; font-weight: 700; }
+.report .details { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px 16px; margin: 8px 0 12px; }
+.report .details div { border-bottom: 1px solid #999; padding: 2px 0; }
+.report .details b { display: block; font-size: 8pt; font-weight: 600; color: #444; }
+.report table { width: 100%; border-collapse: collapse; margin: 6px 0 10px; }
+.report th, .report td { border: 1px solid #555; padding: 4px 6px; text-align: center; font-size: 10pt; }
+.report th:first-child, .report td:first-child { text-align: left; }
+.report tr.total td { font-weight: 700; background: #F1F5F9; }
+.report .section { margin: 10px 0 2px; font-size: 10pt; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; }
+.report .line { margin: 3px 0; }
+.report .sign { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px 24px; margin-top: 16px; }
+.report .sign div { border-bottom: 1px solid #000; min-height: 22px; padding-top: 10px; }
+.report .sign b { display: block; font-size: 8pt; font-weight: 600; color: #444; }
+.report .foot { margin-top: 14px; font-size: 8pt; color: #444; }
+.report th:first-child, .report td:first-child { width: 38%; }
