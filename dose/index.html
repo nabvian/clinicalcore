@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Weight-based Dose</title>
+  <meta name="description" content="mg/kg to mg to mL, checked against the maximums you enter.">
+  <meta name="theme-color" content="#FFFFFF">
+  <link rel="manifest" href="../manifest.webmanifest">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../shared/base.css">
+  <script src="app.js" type="module"></script>
+  <script src="../shared/offline.js" type="module"></script>
+</head>
+<body>
+  <header class="bar">
+    <a class="brand" href="../">
+      <img src="icon.svg" alt="" width="36" height="36">
+      <span><small>ClinicalCore</small>Weight-based Dose</span>
+    </a>
+    <div class="summary" aria-live="polite">
+      <div class="headline" id="headline"></div>
+      <div class="subline" id="subline"></div>
+    </div>
+    <div class="actions">
+      <button class="btn primary" id="copy-note">Copy note</button>
+    </div>
+  </header>
+
+  <main>
+    <p class="notice">There is no built-in drug list. Take the dose, the maximums and the strength from your formulary and the bottle label.</p>
+
+    <section class="panel">
+      <form class="form" id="form">
+        <div class="field wide">
+          <label class="label" for="weight_kg">Weight</label>
+          <div class="control">
+            <input class="input short" id="weight_kg" data-field="weight_kg" type="number" inputmode="decimal" min="0.3" max="200" step="0.1">
+            <span class="unit">kg</span>
+          </div>
+          <input id="weight_slider" type="range" min="0.5" max="80" step="0.1" value="10" aria-label="Weight slider">
+        </div>
+        <div class="field">
+          <label class="label" for="mg_per_kg">Dose</label>
+          <div class="control">
+            <input class="input short" id="mg_per_kg" data-field="mg_per_kg" type="number" inputmode="decimal" min="0" step="any">
+            <span class="unit">mg/kg per dose</span>
+          </div>
+        </div>
+        <div class="field">
+          <label class="label" for="doses_per_day">Doses per day</label>
+          <div class="control">
+            <input class="input short" id="doses_per_day" data-field="doses_per_day" type="number" inputmode="numeric" min="1" max="24" placeholder="optional">
+          </div>
+        </div>
+        <div class="field">
+          <span class="label">Strength (from the label)</span>
+          <div class="control">
+            <input class="input short" id="strength_mg" data-field="strength_mg" type="number" inputmode="decimal" min="0" step="any" aria-label="Strength mg">
+            <span class="unit">mg in</span>
+            <input class="input short" id="strength_ml" data-field="strength_ml" type="number" inputmode="decimal" min="0" step="any" aria-label="Strength mL">
+            <span class="unit">mL</span>
+          </div>
+        </div>
+        <div class="field">
+          <label class="label" for="round_ml">Round volume to</label>
+          <select class="input" id="round_ml" data-field="round_ml">
+            <option value="0.01">0.01 mL</option>
+            <option value="0.05">0.05 mL</option>
+            <option value="0.1" selected>0.1 mL</option>
+            <option value="0.2">0.2 mL</option>
+            <option value="0.5">0.5 mL</option>
+            <option value="1">1 mL</option>
+          </select>
+        </div>
+        <div class="field">
+          <label class="label" for="max_single_mg">Maximum single dose</label>
+          <div class="control">
+            <input class="input short" id="max_single_mg" data-field="max_single_mg" type="number" inputmode="decimal" min="0" step="any" placeholder="optional">
+            <span class="unit">mg</span>
+          </div>
+        </div>
+        <div class="field">
+          <label class="label" for="max_daily_mg">Maximum daily dose</label>
+          <div class="control">
+            <input class="input short" id="max_daily_mg" data-field="max_daily_mg" type="number" inputmode="decimal" min="0" step="any" placeholder="optional">
+            <span class="unit">mg</span>
+          </div>
+        </div>
+      </form>
+    </section>
+
+    <section class="panel" id="working-panel" hidden>
+      <h2>Working</h2>
+      <ol class="steps" id="working"></ol>
+    </section>
+
+    <section class="panel" hidden>
+      <h2>Needs review</h2>
+      <ul class="issues" id="issues"></ul>
+    </section>
+
+    <section class="panel">
+      <h2>Clinical note</h2>
+      <pre class="note" id="note"></pre>
+    </section>
+  </main>
+
+  <footer>
+    <p class="validation">Not clinically signed off or validated. If you think anything should change, <a href="https://github.com/nabvian/clinicalcore/issues/new?template=feedback.md" target="_blank" rel="noopener">share your thoughts</a>. We reply within 1–2 weeks.</p>
+    <p>Runs entirely in your browser. Nothing is stored or sent.</p>
+    <p>A calculation aid, not medical advice. Double-check every dose.</p>
+  </footer>
+
+  <div class="toast" id="toast" role="status"></div>
+</body>
+</html>

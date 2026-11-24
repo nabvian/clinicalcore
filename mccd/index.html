@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Death Certificate Check</title>
+  <meta name="description" content="Checks the cause-of-death section of a medical certificate against WHO certification rules before it is signed.">
+  <meta name="theme-color" content="#FFFFFF">
+  <link rel="manifest" href="../manifest.webmanifest">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../shared/base.css">
+  <script src="app.js" type="module"></script>
+  <script src="../shared/offline.js" type="module"></script>
+</head>
+<body>
+  <header class="bar">
+    <a class="brand" href="../">
+      <img src="icon.svg" alt="" width="36" height="36">
+      <span><small>ClinicalCore</small>Death Certificate Check</span>
+    </a>
+    <div class="summary" aria-live="polite">
+      <div class="headline" id="headline"></div>
+      <div class="subline" id="subline"></div>
+    </div>
+    <div class="actions">
+      <button class="btn primary" id="copy-note">Copy draft</button>
+    </div>
+  </header>
+
+  <main>
+    <p class="notice">Write the cause-of-death section as you plan to certify it. This checks the wording and the sequence only. It never suggests a diagnosis.</p>
+
+    <section class="panel">
+      <h2>Part 1: chain of events leading to death</h2>
+      <p class="hint">Line (a) is the condition that led directly to death. Each line below is what caused the line above it ("due to"). The lowest line used is the underlying cause.</p>
+      <div class="rowset" id="part1"></div>
+    </section>
+
+    <section class="panel">
+      <h2>Part 2: other significant conditions</h2>
+      <textarea class="input" id="part2" rows="2" placeholder="Conditions that contributed to death but are not part of the chain above"></textarea>
+      <div class="field spaced">
+        <label class="label" for="sex">Sex</label>
+        <select class="input" id="sex">
+          <option value="">Not stated</option>
+          <option value="female">Female</option>
+          <option value="male">Male</option>
+          <option value="unknown">Unknown</option>
+        </select>
+      </div>
+    </section>
+
+    <section class="panel" id="start-panel" hidden>
+      <h2>Underlying cause as written</h2>
+      <p class="callout" id="starting"></p>
+    </section>
+
+    <section class="panel" hidden>
+      <h2>Review</h2>
+      <ul class="issues" id="issues"></ul>
+    </section>
+
+    <section class="panel">
+      <h2>Draft</h2>
+      <pre class="note" id="note"></pre>
+    </section>
+  </main>
+
+  <footer>
+    <p class="validation">Not clinically signed off or validated. If you think anything should change, <a href="https://github.com/nabvian/clinicalcore/issues/new?template=feedback.md" target="_blank" rel="noopener">share your thoughts</a>. We reply within 1–2 weeks.</p>
+    <p>Runs entirely in your browser. Nothing is sent.</p>
+    <p>Rules: WHO ICD-10 Volume 2 (§4.1), WHO certification flyer 2023, CDC NCHS guidance. A writing aid, not a coding tool.</p>
+  </footer>
+
+  <div class="toast" id="toast" role="status"></div>
+</body>
+</html>

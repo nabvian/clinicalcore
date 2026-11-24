@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <defs>
+    <mask id="moon">
+      <rect width="128" height="128" fill="#fff"/>
+      <circle cx="80" cy="50" r="30" fill="#000"/>
+    </mask>
+  </defs>
+  <rect width="128" height="128" rx="28" fill="#0F766E"/>
+  <circle cx="60" cy="66" r="38" fill="#FFFFFF" mask="url(#moon)"/>
+  <path d="M0 9C-13 0-11-12 0-6 11-12 13 0 0 9Z" transform="translate(80 54) scale(1.25)" fill="#5EEAD4"/>
+</svg>

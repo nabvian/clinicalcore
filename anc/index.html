@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Antenatal Check</title>
+  <meta name="description" content="Checks antenatal visits, tests, Td, medicines and high-risk factors against the ICMR workflow and the MCP card.">
+  <meta name="theme-color" content="#FFFFFF">
+  <link rel="manifest" href="../manifest.webmanifest">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../shared/base.css">
+  <script src="app.js" type="module"></script>
+  <script src="../shared/offline.js" type="module"></script>
+</head>
+<body>
+  <header class="bar">
+    <a class="brand" href="../">
+      <img src="icon.svg" alt="" width="36" height="36">
+      <span><small>ClinicalCore</small>Antenatal Check</span>
+    </a>
+    <div class="summary" aria-live="polite">
+      <div class="headline" id="headline"></div>
+      <div class="subline" id="subline"></div>
+    </div>
+    <div class="actions">
+      <button class="btn primary" id="copy-note">Copy note</button>
+    </div>
+  </header>
+
+  <main id="form">
+    <section class="panel">
+      <h2>Pregnancy</h2>
+      <div class="form">
+        <div class="field"><label class="label" for="lmp">LMP (first day)</label><input class="input" id="lmp" data-field="lmp" type="date"></div>
+        <div class="field"><label class="label" for="on_date">Today</label><input class="input" id="on_date" data-field="on_date" type="date"></div>
+        <div class="field"><label class="label" for="age_years">Age (years)</label><input class="input" id="age_years" type="number" inputmode="numeric" min="10" max="60"></div>
+        <div class="field"><label class="label" for="height_cm">Height (cm)</label><input class="input" id="height_cm" data-field="height_cm" type="number" inputmode="decimal" min="120" max="200"></div>
+        <div class="field"><label class="label" for="parity">Parity (previous births)</label><input class="input" id="parity" type="number" inputmode="numeric" min="0" max="20"></div>
+      </div>
+      <div class="field spaced">
+        <span class="label">History</span>
+        <div class="checks">
+          <label><input type="checkbox" id="previous_caesarean"> Previous caesarean</label>
+          <label><input type="checkbox" id="previous_uterine_surgery"> Previous uterine surgery</label>
+          <label><input type="checkbox" id="past_pph"> Past PPH</label>
+          <label><input type="checkbox" id="medical_illness"> Medical illness</label>
+          <label><input type="checkbox" id="multiple_pregnancy"> Multiple pregnancy</label>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Visits</h2>
+      <p class="hint">BP, haemoglobin, urine and weight are due at every visit (MCP card).</p>
+      <div class="rowset" id="visits"></div>
+      <button class="btn add-row spaced" type="button" id="add-visit">+ Add visit</button>
+    </section>
+
+    <section class="panel">
+      <h2>Tests, Td and medicines</h2>
+      <div class="checks">
+        <label><input type="checkbox" id="blood_group"> Blood group and Rh</label>
+        <label><input type="checkbox" id="rh_negative"> Rh negative</label>
+        <label><input type="checkbox" id="hiv"> HIV</label>
+        <label><input type="checkbox" id="syphilis"> Syphilis</label>
+        <label><input type="checkbox" id="hbsag"> HBsAg</label>
+        <label><input type="checkbox" id="anomaly_scan"> Anomaly scan</label>
+      </div>
+      <div class="field spaced">
+        <span class="label">GDM tests (75 g glucose, 2-hour value)</span>
+        <div class="rowset" id="glucose"></div>
+        <button class="btn add-row spaced" type="button" id="add-glucose">+ Add GDM test</button>
+      </div>
+      <div class="form spaced">
+        <div class="field"><label class="label" for="td1">Td 1</label><input class="input" id="td1" data-field="td1" type="date"></div>
+        <div class="field"><label class="label" for="td2">Td 2</label><input class="input" id="td2" data-field="td2" type="date"></div>
+        <div class="field"><label class="label" for="td_booster">Td booster</label><input class="input" id="td_booster" data-field="td_booster" type="date"></div>
+      </div>
+      <div class="checks spaced">
+        <label><input type="checkbox" id="td_within_3_years"> Two Td/TT doses in a pregnancy within 3 years</label>
+        <label><input type="checkbox" id="folic_acid"> Folic acid</label>
+        <label><input type="checkbox" id="ifa"> Iron–folic acid</label>
+        <label><input type="checkbox" id="calcium"> Calcium</label>
+        <label><input type="checkbox" id="albendazole"> Albendazole</label>
+      </div>
+    </section>
+
+    <section class="panel" id="plan-panel" hidden>
+      <h2>Visits by ICMR schedule</h2>
+      <div class="table-wrap"><table class="grid"><thead><tr><th>Visit</th><th>When</th><th>Status</th><th>Dates</th></tr></thead><tbody id="contacts"></tbody></table></div>
+      <h2 class="spaced">Tests, Td and medicines</h2>
+      <div class="table-wrap"><table class="grid"><thead><tr><th>Item</th><th>Status</th><th>Detail</th></tr></thead><tbody id="items"></tbody></table></div>
+      <p class="callout spaced" id="hb-action" hidden></p>
+    </section>
+
+    <section class="panel" id="risk-panel" hidden>
+      <h2>High-risk factors (ICMR)</h2>
+      <div class="rowset" id="risks"></div>
+    </section>
+
+    <section class="panel" hidden>
+      <h2>Review</h2>
+      <ul class="issues" id="issues"></ul>
+    </section>
+
+    <section class="panel">
+      <h2>Clinical note</h2>
+      <pre class="note" id="note"></pre>
+    </section>
+  </main>
+
+  <footer>
+    <p class="validation">Not clinically signed off or validated. If you think anything should change, <a href="https://github.com/nabvian/clinicalcore/issues/new?template=feedback.md" target="_blank" rel="noopener">share your thoughts</a>. We reply within 1–2 weeks.</p>
+    <p>Runs entirely in your browser. Nothing is sent.</p>
+    <p>Rules: ICMR STW antenatal management (2025), MCP card (2018), MoHFW GDM guideline (2018), WHO ANC 2016. A checklist aid, not medical advice.</p>
+  </footer>
+
+  <div class="toast" id="toast" role="status"></div>
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Vaccine Catch-up</title>
+  <meta name="description" content="India UIP catch-up planner from birth to 16 years, with Vitamin A: what is due today, what is late, and what is past the maximum age.">
+  <meta name="theme-color" content="#FFFFFF">
+  <link rel="manifest" href="../manifest.webmanifest">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../shared/base.css">
+  <script src="app.js" type="module"></script>
+  <script src="../shared/offline.js" type="module"></script>
+</head>
+<body>
+  <header class="bar">
+    <a class="brand" href="../">
+      <img src="icon.svg" alt="" width="36" height="36">
+      <span><small>ClinicalCore</small>Vaccine Catch-up</span>
+    </a>
+    <div class="summary" aria-live="polite">
+      <div class="headline" id="headline"></div>
+      <div class="subline" id="subline"></div>
+    </div>
+    <div class="actions">
+      <button class="btn primary" id="copy-note">Copy note</button>
+    </div>
+  </header>
+
+  <main id="form">
+    <section class="panel">
+      <div class="form">
+        <div class="field"><label class="label" for="dob">Date of birth</label><input class="input" id="dob" data-field="dob" type="date"></div>
+        <div class="field"><label class="label" for="on_date">Today</label><input class="input" id="on_date" data-field="on_date" type="date"></div>
+        <div class="field">
+          <label class="label" for="sex">Sex</label>
+          <select class="input" id="sex" data-field="sex">
+            <option value="">Not stated</option>
+            <option value="female">Female</option>
+            <option value="male">Male</option>
+          </select>
+        </div>
+      </div>
+      <div class="field spaced">
+        <span class="label">Vaccines given in this district</span>
+        <div class="checks">
+          <label><input type="checkbox" id="rotavirus"> Rotavirus</label>
+          <label><input type="checkbox" id="pcv"> PCV</label>
+          <label><input type="checkbox" id="je"> JE</label>
+        </div>
+      </div>
+      <p class="hint spaced">Do not restart a schedule: enter the dates already given and the planner picks up where it stopped.</p>
+    </section>
+
+    <section class="panel" id="today-panel" hidden>
+      <h2>Give today</h2>
+      <p class="callout" id="today"></p>
+    </section>
+
+    <section class="panel" id="table-panel" hidden>
+      <h2>Schedule</h2>
+      <div class="table-wrap">
+        <table class="grid">
+          <thead><tr><th>Vaccine</th><th>Status</th><th>Date given</th><th>Earliest</th><th>Last day</th></tr></thead>
+          <tbody id="rows"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="panel" hidden>
+      <h2>Review</h2>
+      <ul class="issues" id="issues"></ul>
+    </section>
+
+    <section class="panel">
+      <h2>Clinical note</h2>
+      <pre class="note" id="note"></pre>
+    </section>
+  </main>
+
+  <footer>
+    <p class="validation">Not clinically signed off or validated. If you think anything should change, <a href="https://github.com/nabvian/clinicalcore/issues/new?template=feedback.md" target="_blank" rel="noopener">share your thoughts</a>. We reply within 1–2 weeks.</p>
+    <p>Runs entirely in your browser. Nothing is sent.</p>
+    <p>Schedule: MoHFW National Immunization Schedule, fIPV-3 guidance (2023), HPV campaign handbook (2026) and Immunization Handbook for Medical Officers 2017 (catch-up rules). Check the current state schedule.</p>
+  </footer>
+
+  <div class="toast" id="toast" role="status"></div>
+</body>
+</html>

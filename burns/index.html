@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Burn Fluids</title>
+  <meta name="description" content="24-hour burn resuscitation estimate from the time of burn.">
+  <meta name="theme-color" content="#FFFFFF">
+  <link rel="manifest" href="../manifest.webmanifest">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../shared/base.css">
+  <link rel="stylesheet" href="burns.css">
+  <script src="app.js" type="module"></script>
+  <script src="../shared/offline.js" type="module"></script>
+</head>
+<body>
+  <header class="bar">
+    <a class="brand" href="../">
+      <img src="icon.svg" alt="" width="36" height="36">
+      <span><small>ClinicalCore</small>Burn Fluids</span>
+    </a>
+    <div class="summary" aria-live="polite">
+      <div class="headline" id="headline"></div>
+      <div class="subline" id="subline"></div>
+    </div>
+    <div class="actions">
+      <button class="btn primary" id="copy-note">Copy note</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="panel">
+      <form class="form" id="form">
+        <div class="field wide">
+          <span class="label">Patient</span>
+          <div id="patient" data-field="patient"></div>
+        </div>
+        <div class="field wide">
+          <span class="label">Starting formula</span>
+          <div id="formula" data-field="ml_per_kg_tbsa"></div>
+        </div>
+        <div class="field">
+          <label class="label" for="weight_kg">Weight</label>
+          <div class="control">
+            <input class="input short" id="weight_kg" data-field="weight_kg" type="number" inputmode="decimal" min="1" max="300" step="0.1">
+            <span class="unit">kg</span>
+          </div>
+        </div>
+        <div class="field">
+          <label class="label" for="tbsa_percent">Burn size</label>
+          <div class="control">
+            <input class="input short" id="tbsa_percent" data-field="tbsa_percent" type="number" inputmode="decimal" min="1" max="100" step="0.5">
+            <span class="unit">% TBSA</span>
+          </div>
+          <input id="tbsa_slider" type="range" min="1" max="100" step="1" value="20" aria-label="TBSA slider">
+        </div>
+        <div class="field">
+          <label class="label" for="burn_time">Time of burn</label>
+          <input class="input" id="burn_time" data-field="burn_time" type="datetime-local">
+        </div>
+        <div class="field">
+          <label class="label" for="now">Current time</label>
+          <div class="control">
+            <input class="input grow" id="now" data-field="now" type="datetime-local">
+            <button class="btn small" type="button" id="set-now">Now</button>
+          </div>
+        </div>
+        <div class="field">
+          <label class="label" for="given_ml">Fluid already given since burn</label>
+          <div class="control">
+            <input class="input short" id="given_ml" data-field="given_ml" type="number" inputmode="decimal" min="0" step="10" placeholder="0">
+            <span class="unit">mL</span>
+          </div>
+        </div>
+      </form>
+    </section>
+
+    <section class="panel" id="plan-panel" hidden>
+      <h2>Plan</h2>
+      <dl class="rows" id="totals"></dl>
+      <div class="timeline" id="timeline"></div>
+      <div class="scale" id="scale"></div>
+      <div class="phases" id="phases"></div>
+    </section>
+
+    <section class="panel" hidden>
+      <h2>Needs review</h2>
+      <ul class="issues" id="issues"></ul>
+    </section>
+
+    <section class="panel">
+      <h2>Clinical note</h2>
+      <pre class="note" id="note"></pre>
+    </section>
+  </main>
+
+  <footer>
+    <p class="validation">Not clinically signed off or validated. If you think anything should change, <a href="https://github.com/nabvian/clinicalcore/issues/new?template=feedback.md" target="_blank" rel="noopener">share your thoughts</a>. We reply within 1–2 weeks.</p>
+    <p>Runs entirely in your browser. Nothing is stored or sent.</p>
+    <p>A starting estimate, not medical advice. Titrate to the patient.</p>
+  </footer>
+
+  <div class="toast" id="toast" role="status"></div>
+</body>
+</html>

@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ObiLogic</title>
+  <meta name="description" content="Obstetric history checker: reads the antenatal card, checks it against each pregnancy, and flags what matters.">
+  <meta name="theme-color" content="#FFFFFF">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="manifest" href="../manifest.webmanifest">
+  <link rel="stylesheet" href="../shared/base.css">
+  <link rel="stylesheet" href="obilogic.css">
+  <script src="app.js" type="module"></script>
+  <script src="../shared/offline.js" type="module"></script>
+</head>
+<body>
+  <header class="bar">
+    <a class="brand" href="../">
+      <img src="icon.svg" alt="" width="36" height="36">
+      <span><small>ClinicalCore</small>ObiLogic</span>
+    </a>
+    <div class="summary" aria-live="polite">
+      <div class="tiles" id="tiles"></div>
+      <div class="alt"><span id="formula"></span><span id="gtpal"></span></div>
+    </div>
+    <div class="actions">
+      <select class="input lang" id="lang" aria-label="Language"></select>
+      <button class="btn primary" id="copy-score" data-i18n="copy.score"></button>
+      <button class="btn" id="copy-note" data-i18n="copy.note"></button>
+    </div>
+  </header>
+
+  <main>
+    <section class="panel settings">
+      <label for="viability" data-i18n="settings.cutoff"></label>
+      <select id="viability">
+        <option value="28" data-i18n="cutoff.28"></option>
+        <option value="20" data-i18n="cutoff.20"></option>
+        <option value="22" data-i18n="cutoff.22"></option>
+        <option value="24" data-i18n="cutoff.24"></option>
+      </select>
+      <label for="order" data-i18n="settings.order"></label>
+      <select id="order">
+        <option value="gpla">G P L A</option>
+        <option value="gpal">G P A L</option>
+        <option value="gtpal">G T P A L</option>
+      </select>
+      <button class="btn ghost" id="reset" data-i18n="settings.clear"></button>
+    </section>
+
+    <section class="panel">
+      <h2 data-i18n="card.title"></h2>
+      <p class="hint" data-i18n="card.hint"></p>
+      <textarea class="input card-text" id="card" rows="2" data-i18n-placeholder="card.placeholder" autocomplete="off" spellcheck="false"></textarea>
+      <div id="card-reading" hidden>
+        <div class="reading" id="reading"></div>
+        <ul class="issues card-issues-list" id="card-issues"></ul>
+        <table class="grid compare" id="compare" hidden>
+          <thead><tr><th data-i18n="card.item"></th><th data-i18n="card.card"></th><th data-i18n="card.history"></th><th data-i18n="card.agrees"></th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <h2 class="section-title" data-i18n="preg.heading"></h2>
+    <section id="pregnancies" class="list"></section>
+    <button class="add" id="add" data-i18n="preg.add"></button>
+
+    <section class="panel" id="flags-panel" hidden>
+      <h2 data-i18n="flags.title"></h2>
+      <ul id="flags" class="flags"></ul>
+    </section>
+
+    <section class="panel" id="issues-panel" hidden>
+      <h2 data-i18n="review.title"></h2>
+      <ul id="issues" class="issues"></ul>
+    </section>
+
+    <section class="panel">
+      <h2 data-i18n="note.title"></h2>
+      <p class="hint" data-i18n="note.english"></p>
+      <pre id="note" class="note"></pre>
+    </section>
+
+    <section class="panel audit">
+      <h2 data-i18n="audit.title"></h2>
+      <p class="hint" data-i18n="audit.hint"></p>
+      <div class="audit-actions">
+        <button class="btn primary" id="audit-add" data-i18n="audit.add"></button>
+        <button class="btn" id="audit-download" data-i18n="audit.download"></button>
+        <button class="btn ghost" id="audit-clear" data-i18n="audit.clear"></button>
+      </div>
+      <dl class="rows" id="audit-summary"></dl>
+      <table class="grid" id="audit-items" hidden>
+        <thead><tr><th data-i18n="audit.item"></th><th data-i18n="audit.n"></th><th data-i18n="audit.wrong"></th><th data-i18n="audit.rate"></th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </section>
+  </main>
+
+  <footer>
+    <p class="validation">Not clinically signed off or validated. If you think anything should change, <a href="https://github.com/nabvian/clinicalcore/issues/new?template=feedback.md" target="_blank" rel="noopener">share your thoughts</a>. We reply within 1–2 weeks.</p>
+    <p data-i18n="footer.private"></p>
+    <p data-i18n="footer.aid"></p>
+    <p data-i18n="footer.translation"></p>
+  </footer>
+
+  <div class="toast" id="toast" role="status"></div>
+
+  <template id="pregnancy-card">
+    <article class="card">
+      <div class="card-head">
+        <h3></h3>
+        <span class="badge"></span>
+        <input class="year" type="number" inputmode="numeric" min="1950" max="2100">
+        <button class="remove">×</button>
+      </div>
+      <div class="card-body"></div>
+      <ul class="card-issues"></ul>
+    </article>
+  </template>
+</body>
+</html>

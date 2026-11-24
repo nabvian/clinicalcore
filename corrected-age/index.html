@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Corrected Age</title>
+  <meta name="description" content="Chronological, corrected and postmenstrual age for babies born preterm.">
+  <meta name="theme-color" content="#FFFFFF">
+  <link rel="manifest" href="../manifest.webmanifest">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../shared/base.css">
+  <script src="app.js" type="module"></script>
+  <script src="../shared/offline.js" type="module"></script>
+</head>
+<body>
+  <header class="bar">
+    <a class="brand" href="../">
+      <img src="icon.svg" alt="" width="36" height="36">
+      <span><small>ClinicalCore</small>Corrected Age</span>
+    </a>
+    <div class="summary" aria-live="polite">
+      <div class="headline" id="headline"></div>
+      <div class="subline" id="subline"></div>
+    </div>
+    <div class="actions">
+      <button class="btn primary" id="copy-note">Copy note</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="panel">
+      <form class="form" id="form">
+        <div class="field">
+          <label class="label" for="birth_date">Date of birth</label>
+          <input class="input" id="birth_date" data-field="birth_date" type="date">
+        </div>
+        <div class="field">
+          <span class="label">Gestational age at birth</span>
+          <div class="control">
+            <input class="input short" id="ga_weeks" data-field="ga" type="number" inputmode="numeric" min="20" max="44" placeholder="weeks" aria-label="Weeks">
+            <span class="unit">+</span>
+            <input class="input short" id="ga_days" data-field="ga" type="number" inputmode="numeric" min="0" max="6" placeholder="days" aria-label="Days">
+            <span class="unit">weeks</span>
+          </div>
+        </div>
+        <div class="field">
+          <label class="label" for="on_date">Assessment date</label>
+          <input class="input" id="on_date" data-field="on_date" type="date">
+        </div>
+        <div class="field">
+          <label class="label" for="convention">Correct until</label>
+          <select class="input" id="convention">
+            <option value="two_years">Age 2 years (AAP)</option>
+            <option value="by_gestation">By gestation: &lt;32 wk to 2 y, 32–36 wk to 1 y</option>
+            <option value="no_limit">No limit (RCPCH growth charts)</option>
+          </select>
+        </div>
+      </form>
+    </section>
+
+    <section class="panel" id="result-panel" hidden>
+      <h2>Result</h2>
+      <dl class="rows" id="rows"></dl>
+    </section>
+
+    <section class="panel" id="schedule-panel" hidden>
+      <h2>Corrected-age dates</h2>
+      <table class="grid">
+        <thead><tr><th>Corrected age</th><th>Date</th><th></th></tr></thead>
+        <tbody id="schedule"></tbody>
+      </table>
+    </section>
+
+    <section class="panel" hidden>
+      <h2>Needs review</h2>
+      <ul class="issues" id="issues"></ul>
+    </section>
+
+    <section class="panel">
+      <h2>Clinical note</h2>
+      <pre class="note" id="note"></pre>
+    </section>
+  </main>
+
+  <footer>
+    <p class="validation">Not clinically signed off or validated. If you think anything should change, <a href="https://github.com/nabvian/clinicalcore/issues/new?template=feedback.md" target="_blank" rel="noopener">share your thoughts</a>. We reply within 1–2 weeks.</p>
+    <p>Runs entirely in your browser. Nothing is stored or sent.</p>
+    <p>A decision aid, not medical advice.</p>
+  </footer>
+
+  <div class="toast" id="toast" role="status"></div>
+</body>
+</html>
