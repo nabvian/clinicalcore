@@ -303,3 +303,11 @@ select.input { max-width: 100%; }
 .dialog-actions { display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-end; }
 .validation { border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; background: var(--accent-soft); color: var(--ink); }
 .validation a { color: var(--accent); font-weight: 600; }
+
+.audit-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+details.audit > summary { cursor: pointer; list-style: none; display: flex; align-items: center; gap: 8px; }
+details.audit > summary::-webkit-details-marker { display: none; }
+details.audit > summary::before { content: '▸'; color: var(--muted); }
+details.audit[open] > summary::before { content: '▾'; }
+details.audit > summary h2 { margin: 0; }
+.inline { display: flex; gap: 8px; align-items: center; }

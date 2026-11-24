@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Death Certificate Check</title>
-  <meta name="description" content="Checks the cause-of-death section of a medical certificate against WHO certification rules before it is signed.">
+  <meta name="description" content="Checks a medical certificate of cause of death (Form 4/4A) against the Registrar General of India manual and WHO rules before it is signed, and audits many certificates at once.">
   <meta name="theme-color" content="#FFFFFF">
   <link rel="manifest" href="../manifest.webmanifest">
   <link rel="icon" href="icon.svg" type="image/svg+xml">
@@ -39,15 +39,66 @@
     <section class="panel">
       <h2>Part 2: other significant conditions</h2>
       <textarea class="input" id="part2" rows="2" placeholder="Conditions that contributed to death but are not part of the chain above"></textarea>
-      <div class="field spaced">
-        <label class="label" for="sex">Sex</label>
-        <select class="input" id="sex">
-          <option value="">Not stated</option>
-          <option value="female">Female</option>
-          <option value="male">Male</option>
-          <option value="unknown">Unknown</option>
-        </select>
+    </section>
+
+    <section class="panel">
+      <h2>Deceased and manner of death</h2>
+      <div class="form">
+        <div class="field">
+          <label class="label" for="age">Age at death</label>
+          <div class="inline">
+            <input class="input short" id="age" data-field="age" type="number" inputmode="numeric" min="0" max="130">
+            <select class="input" id="age_unit" aria-label="Age unit">
+              <option value="years">years</option>
+              <option value="months">months</option>
+              <option value="days">days</option>
+              <option value="hours">hours</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label class="label" for="sex">Sex</label>
+          <select class="input" id="sex">
+            <option value="">Not stated</option>
+            <option value="female">Female</option>
+            <option value="male">Male</option>
+          </select>
+        </div>
+        <div class="field">
+          <label class="label" for="manner">Manner of death</label>
+          <select class="input" id="manner" data-field="manner">
+            <option value="">Not stated</option>
+            <option value="natural">Natural</option>
+            <option value="accident">Accident</option>
+            <option value="suicide">Suicide</option>
+            <option value="homicide">Homicide</option>
+            <option value="pending">Pending investigation</option>
+          </select>
+        </div>
       </div>
+      <div class="field spaced">
+        <label class="label" for="injury_how">How did the injury occur?</label>
+        <input class="input" id="injury_how" data-field="injury_how" autocomplete="off" placeholder="For an injury: the circumstances, for example fell from a tree while plucking fruit">
+      </div>
+      <div class="form spaced" id="pregnancy-fields" hidden>
+        <div class="field">
+          <label class="label" for="pregnancy">Was the death associated with pregnancy?</label>
+          <select class="input" id="pregnancy" data-field="pregnancy">
+            <option value="">Not answered</option>
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+          </select>
+        </div>
+        <div class="field" id="delivery-field" hidden>
+          <label class="label" for="delivery">Was there a delivery?</label>
+          <select class="input" id="delivery" data-field="delivery">
+            <option value="">Not answered</option>
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+          </select>
+        </div>
+      </div>
+      <p class="hint spaced">As on Form 4 (hospital) and Form 4A (other deaths). Neither form is used for stillbirths.</p>
     </section>
 
     <section class="panel" id="start-panel" hidden>
@@ -64,12 +115,32 @@
       <h2>Draft</h2>
       <pre class="note" id="note"></pre>
     </section>
+
+    <details class="panel audit" id="audit">
+      <summary><h2>Check many certificates</h2></summary>
+      <p class="hint">For a medical records audit: one row per certificate, with the columns in the template. Form 4 codes also work (sex 1 male, 2 female; manner 1 to 5; yes 1, no 2). Leave out names. Nothing leaves this device and nothing is saved.</p>
+      <div class="audit-actions spaced">
+        <button class="btn" type="button" id="audit-template">Download template</button>
+        <label class="btn" for="audit-file">Open CSV file</label>
+        <input type="file" id="audit-file" accept=".csv,text/csv" hidden>
+        <button class="btn" type="button" id="audit-download" disabled>Download results</button>
+      </div>
+      <textarea class="input spaced" id="audit-csv" rows="5" placeholder="Or paste the rows here, starting with the column names"></textarea>
+      <ul class="issues spaced" id="audit-problems"></ul>
+      <div id="audit-results" hidden>
+        <dl class="rows spaced" id="audit-summary"></dl>
+        <h2 class="spaced">Problems found</h2>
+        <div class="table-wrap"><table class="grid"><thead><tr><th>Check</th><th>Level</th><th>Certificates</th><th>Share</th></tr></thead><tbody id="audit-checks"></tbody></table></div>
+        <h2 class="spaced">Certificates</h2>
+        <div class="table-wrap"><table class="grid"><thead><tr><th>Row</th><th>ID</th><th>Underlying cause as written</th><th>Errors</th><th>Warnings</th><th>Checks</th></tr></thead><tbody id="audit-rows"></tbody></table></div>
+      </div>
+    </details>
   </main>
 
   <footer>
     <p class="validation">Not clinically signed off or validated. If you think anything should change, <a href="https://github.com/nabvian/clinicalcore/issues/new?template=feedback.md" target="_blank" rel="noopener">share your thoughts</a>. We reply within 1–2 weeks.</p>
     <p>Runs entirely in your browser. Nothing is sent.</p>
-    <p>Rules: WHO ICD-10 Volume 2 (§4.1), WHO certification flyer 2023, CDC NCHS guidance. A writing aid, not a coding tool.</p>
+    <p>Rules: Registrar General of India, Physicians' Manual on MCCD (2nd edition) and Forms 4/4A; WHO ICD-10 Volume 2 (§4.1); WHO certification flyer 2023; CDC NCHS guidance. A writing aid, not a coding tool.</p>
   </footer>
 
   <div class="toast" id="toast" role="status"></div>
