@@ -23,8 +23,10 @@ self.addEventListener('fetch', event => {
   event.respondWith(
     fetch(request, { cache: 'no-cache' })
       .then(response => {
-        const copy = response.clone();
-        caches.open(CACHE).then(cache => cache.put(request, copy));
+        if (response.status === 200 && !request.headers.has('range')) {
+          const copy = response.clone();
+          caches.open(CACHE).then(cache => cache.put(request, copy));
+        }
         return response;
       })
       .catch(() => caches.match(request, { ignoreSearch: true })),

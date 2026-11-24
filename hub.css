@@ -42,3 +42,8 @@
 @media (max-width: 400px) {
   .tools { grid-template-columns: 1fr; }
 }
+
+.watch { margin-top: 28px; }
+.watch h2 { margin: 0 0 10px; font-size: 18px; }
+.watch video { display: block; width: 100%; height: auto; border: 1px solid var(--line); border-radius: var(--radius); background: #FFFFFF; }
+.watch p { margin: 8px 0 0; font-size: 14px; color: var(--muted); }
