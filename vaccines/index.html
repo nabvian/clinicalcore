@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Vaccine Catch-up</title>
-  <meta name="description" content="India UIP catch-up planner from birth to 16 years, with Vitamin A: what is due today, what is late, and what is past the maximum age.">
+  <meta name="description" content="India UIP catch-up planner from birth to 16 years, following the 2024 Routine Immunization Manual, with a session due list for many children.">
   <meta name="theme-color" content="#FFFFFF">
   <link rel="manifest" href="../manifest.webmanifest">
   <link rel="icon" href="icon.svg" type="image/svg+xml">
@@ -76,12 +76,35 @@
       <h2>Clinical note</h2>
       <pre class="note" id="note"></pre>
     </section>
+
+    <details class="panel audit" id="session">
+      <summary><h2>Session due list</h2></summary>
+      <p class="hint">For a session: one row per child with the date of birth and the dates of doses already given, using the columns in the template. The list shows who is due on the session date and how many doses of each vaccine to bring. The district settings above apply to all children. Leave out names. Nothing leaves this device and nothing is saved.</p>
+      <div class="form spaced">
+        <div class="field"><label class="label" for="session-date">Session date</label><input class="input" id="session-date" type="date"></div>
+      </div>
+      <div class="audit-actions spaced">
+        <button class="btn" type="button" id="session-template">Download template</button>
+        <label class="btn" for="session-file">Open CSV file</label>
+        <input type="file" id="session-file" accept=".csv,text/csv" hidden>
+        <button class="btn" type="button" id="session-download" disabled>Download due list</button>
+      </div>
+      <textarea class="input spaced" id="session-csv" rows="5" placeholder="Or paste the rows here, starting with the column names"></textarea>
+      <ul class="issues spaced" id="session-problems"></ul>
+      <div id="session-results" hidden>
+        <dl class="rows spaced" id="session-summary"></dl>
+        <h2 class="spaced">Doses to bring</h2>
+        <div class="table-wrap"><table class="grid"><thead><tr><th>Vaccine</th><th>Doses</th></tr></thead><tbody id="session-counts"></tbody></table></div>
+        <h2 class="spaced">Children</h2>
+        <div class="table-wrap"><table class="grid"><thead><tr><th>Row</th><th>ID</th><th>Age</th><th>Due on the session date</th><th>Next due</th></tr></thead><tbody id="session-children"></tbody></table></div>
+      </div>
+    </details>
   </main>
 
   <footer>
     <p class="validation">Not clinically signed off or validated. If you think anything should change, <a href="https://github.com/nabvian/clinicalcore/issues/new?template=feedback.md" target="_blank" rel="noopener">share your thoughts</a>. We reply within 1–2 weeks.</p>
     <p>Runs entirely in your browser. Nothing is sent.</p>
-    <p>Schedule: MoHFW National Immunization Schedule, fIPV-3 guidance (2023), HPV campaign handbook (2026) and Immunization Handbook for Medical Officers 2017 (catch-up rules). Check the current state schedule.</p>
+    <p>Schedule: MoHFW Routine Immunization Manual for Medical Officers (2024) and National Immunization Schedule, PCV operational guidelines (2021), fIPV-3 guidance (2023), HPV campaign handbook (2026). Check the current state schedule.</p>
   </footer>
 
   <div class="toast" id="toast" role="status"></div>
