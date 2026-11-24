@@ -1,0 +1,30 @@
+
+.timer-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.clock { font-size: 40px; font-weight: 800; font-variant-numeric: tabular-nums; letter-spacing: -0.02em; line-height: 1; }
+.due { margin-top: 4px; font-size: 14px; font-weight: 600; color: var(--muted); }
+.timer-actions { display: flex; gap: 8px; }
+.btn.big { min-height: 52px; padding: 0 22px; font-size: 17px; }
+.alert { margin-top: 12px; padding: 12px 14px; border-radius: 10px; background: var(--amber); color: var(--amber-ink); font-size: 17px; font-weight: 700; }
+
+.score-head { display: flex; flex-direction: column; gap: 10px; }
+.quick { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.quick .btn { min-height: 48px; white-space: normal; }
+.signs { display: grid; gap: 10px; margin-top: 14px; }
+.sign-row { display: grid; grid-template-columns: 110px 1fr; align-items: center; gap: 8px; }
+.sign-name { font-size: 14px; font-weight: 700; }
+.levels { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+.level { min-height: 56px; border: 1px solid var(--line); border-radius: 10px; background: #FFFFFF; font: inherit; color: var(--ink); cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; padding: 4px; }
+.level b { font-size: 20px; line-height: 1; }
+.level span { font-size: 12px; color: var(--muted); text-align: center; }
+.level[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.level[aria-pressed="true"] span { color: var(--accent-ink); }
+.toggles { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 6px; margin-top: 6px; }
+.toggle { min-height: 52px; border: 1px solid var(--line); border-radius: 10px; background: #FFFFFF; font: inherit; font-size: 14px; font-weight: 600; color: var(--ink); cursor: pointer; padding: 6px; }
+.toggle[aria-pressed="true"] { background: var(--amber); border-color: var(--amber-ink); color: var(--amber-ink); }
+.score details summary { cursor: pointer; font-size: 14px; font-weight: 600; color: var(--accent); }
+
+@media (max-width: 480px) {
+  .sign-row { grid-template-columns: 1fr; gap: 4px; }
+  .quick { grid-template-columns: 1fr; }
+}
+#minutes .chip:disabled { opacity: 0.5; cursor: default; }

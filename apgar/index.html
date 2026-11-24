@@ -9,6 +9,7 @@
   <link rel="manifest" href="../manifest.webmanifest">
   <link rel="icon" href="icon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../shared/base.css">
+  <link rel="stylesheet" href="apgar.css">
   <script src="app.js" type="module"></script>
   <script src="../shared/offline.js" type="module"></script>
 </head>
@@ -28,7 +29,39 @@
   </header>
 
   <main id="form">
-    <p class="notice">The Apgar score describes the baby's condition and response to resuscitation. Do not wait for it to start resuscitation. It does not predict outcome or diagnose asphyxia.</p>
+    <section class="panel timer" id="timer">
+      <div class="timer-row">
+        <div>
+          <div class="clock" id="clock">00:00</div>
+          <div class="due" id="due">Tap when the baby is born</div>
+        </div>
+        <div class="timer-actions">
+          <button class="btn primary big" type="button" id="born">Baby born</button>
+          <button class="btn ghost" type="button" id="reset" hidden>Reset</button>
+        </div>
+      </div>
+      <div class="alert" id="alert" role="alert" hidden></div>
+    </section>
+
+    <p class="notice">Do not wait for the Apgar score to start resuscitation. It describes the baby; it does not predict outcome or diagnose asphyxia.</p>
+
+    <section class="panel score">
+      <div class="score-head">
+        <div class="chips" id="minutes" role="tablist" aria-label="Minute"></div>
+        <div class="quick">
+          <button class="btn" type="button" id="all-normal">All normal: 10, no support</button>
+          <button class="btn" type="button" id="same">Same as last time</button>
+        </div>
+      </div>
+      <div id="signs" class="signs"></div>
+      <span class="label spaced">Support given at this time</span>
+      <div class="toggles" id="support"></div>
+      <details class="spaced">
+        <summary>Full wording of each score</summary>
+        <div class="table-wrap"><table class="grid" id="wording"><thead><tr><th>Sign</th><th>0</th><th>1</th><th>2</th></tr></thead><tbody></tbody></table></div>
+        <p class="hint spaced">Score what you see, whatever support is given. For a preterm baby, score tone and reflexes against what is expected for the gestation.</p>
+      </details>
+    </section>
 
     <section class="panel">
       <h2>Baby</h2>
@@ -38,17 +71,6 @@
         <div class="field"><label class="label" for="cord_clamped">Cord clamped</label><input class="input" id="cord_clamped" type="time"></div>
         <div class="field"><label class="label" for="resuscitation_started">Resuscitation started</label><input class="input" id="resuscitation_started" type="time"></div>
       </div>
-    </section>
-
-    <section class="panel">
-      <h2>Score</h2>
-      <div class="chips" id="minutes" role="tablist" aria-label="Minute"></div>
-      <div id="signs" class="spaced"></div>
-      <div class="field spaced">
-        <span class="label">Support given at this time</span>
-        <div class="checks" id="support"></div>
-      </div>
-      <p class="hint spaced">Score what you see, whatever support is given. For a preterm baby, score tone and reflexes against what is expected for the gestation.</p>
     </section>
 
     <section class="panel" id="record-panel" hidden>
