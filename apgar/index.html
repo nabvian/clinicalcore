@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Apgar Record</title>
+  <meta name="description" content="Apgar score with the expanded AAP/ACOG form and the Combined-Apgar: scores at 1, 5 and every 5 minutes while below 7, with the support given.">
+  <meta name="theme-color" content="#FFFFFF">
+  <link rel="manifest" href="../manifest.webmanifest">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../shared/base.css">
+  <script src="app.js" type="module"></script>
+  <script src="../shared/offline.js" type="module"></script>
+</head>
+<body>
+  <header class="bar">
+    <a class="brand" href="../">
+      <img src="icon.svg" alt="" width="36" height="36">
+      <span><small>ClinicalCore</small>Apgar Record</span>
+    </a>
+    <div class="summary" aria-live="polite">
+      <div class="headline" id="headline"></div>
+      <div class="subline" id="subline"></div>
+    </div>
+    <div class="actions">
+      <button class="btn primary" id="copy-note">Copy note</button>
+    </div>
+  </header>
+
+  <main id="form">
+    <p class="notice">The Apgar score describes the baby's condition and response to resuscitation. Do not wait for it to start resuscitation. It does not predict outcome or diagnose asphyxia.</p>
+
+    <section class="panel">
+      <h2>Baby</h2>
+      <div class="form">
+        <div class="field"><label class="label" for="gestation">Gestation (weeks)</label><input class="input short" id="gestation" data-field="gestation_weeks" type="number" inputmode="numeric" min="20" max="44"></div>
+        <div class="field"><label class="label" for="birth_time">Birth</label><input class="input" id="birth_time" type="time"></div>
+        <div class="field"><label class="label" for="cord_clamped">Cord clamped</label><input class="input" id="cord_clamped" type="time"></div>
+        <div class="field"><label class="label" for="resuscitation_started">Resuscitation started</label><input class="input" id="resuscitation_started" type="time"></div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Score</h2>
+      <div class="chips" id="minutes" role="tablist" aria-label="Minute"></div>
+      <div id="signs" class="spaced"></div>
+      <div class="field spaced">
+        <span class="label">Support given at this time</span>
+        <div class="checks" id="support"></div>
+      </div>
+      <p class="hint spaced">Score what you see, whatever support is given. For a preterm baby, score tone and reflexes against what is expected for the gestation.</p>
+    </section>
+
+    <section class="panel" id="record-panel" hidden>
+      <h2>Record</h2>
+      <div class="table-wrap">
+        <table class="grid">
+          <thead><tr><th>Minute</th><th>Apgar</th><th>Expanded</th><th>Combined</th><th>Support</th></tr></thead>
+          <tbody id="record"></tbody>
+        </table>
+      </div>
+      <p class="callout spaced" id="band" hidden></p>
+      <p class="hint spaced">Expanded-Apgar: 1 point for each of 7 kinds of support not given (7 = none). Combined-Apgar: Expanded, then Apgar, for example 7–10.</p>
+    </section>
+
+    <section class="panel" hidden>
+      <h2>Review</h2>
+      <ul class="issues" id="issues"></ul>
+    </section>
+
+    <section class="panel">
+      <h2>Comments</h2>
+      <textarea class="input" id="comments" rows="2" placeholder="Maternal medicines, response to resuscitation between scores"></textarea>
+    </section>
+
+    <section class="panel">
+      <h2>Clinical note</h2>
+      <pre class="note" id="note"></pre>
+    </section>
+  </main>
+
+  <footer>
+    <p class="validation">Not clinically signed off or validated. If you think anything should change, <a href="https://github.com/nabvian/clinicalcore/issues/new?template=feedback.md" target="_blank" rel="noopener">share your thoughts</a>. We reply within 1–2 weeks.</p>
+    <p>Runs entirely in your browser. Nothing is sent.</p>
+    <p>Rules: ACOG Committee Opinion 644 with the American Academy of Pediatrics, The Apgar Score (2015, reaffirmed 2025); Rüdiger and others, TEST-Apgar, BMC Pediatrics 2015. A recording aid, not a decision tool.</p>
+  </footer>
+
+  <div class="toast" id="toast" role="status"></div>
+</body>
+</html>

@@ -7,6 +7,7 @@ const CORE = [
   'mccd/', 'mccd/index.html', 'mccd/app.js', 'mccd/icon.svg',
   'anc/', 'anc/index.html', 'anc/app.js', 'anc/icon.svg',
   'vaccines/', 'vaccines/index.html', 'vaccines/app.js', 'vaccines/icon.svg',
+  'apgar/', 'apgar/index.html', 'apgar/app.js', 'apgar/icon.svg',
 ];
 
 self.addEventListener('install', event => {
